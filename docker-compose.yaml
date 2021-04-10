@@ -1,0 +1,49 @@
+version: '3.2'
+volumes:
+  certs:
+  vhost:
+  html:
+  acme:
+services:
+  nginxproxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /tmp/docker.sock
+      - type: volume
+        source: certs
+        target: /etc/nginx/certs
+      - type: volume
+        source: vhost
+        target: /etc/nginx/vhost.d
+      - type: volume
+        source: html
+        target: /usr/share/nginx/html
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+  acmenginx:
+    image: nginxproxy/acme-companion
+    environment:
+      - DEFAULT_EMAIL=sachgits@yahoo.com
+      - NGINX_PROXY_CONTAINER=nginxproxy
+    depends_on:
+      - nginxproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - type: volume
+        source: acme
+        target: /etc/acme.sh
+    volumes_from:
+      - nginxproxy
+  proxy:
+    image: proxy:1.5
+    environment:
+      - VIRTUAL_HOST=proxy.local
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=proxy.local
+    expose:
+      - "5000"
