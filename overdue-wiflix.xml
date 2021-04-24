@@ -1,0 +1,42 @@
+<overdueConfig>
+   <accountOverdueStates>
+       <initialReevaluationInterval>
+           <unit>DAYS</unit><number>2</number>
+       </initialReevaluationInterval>
+       <state name="CANCELLATION">
+           <condition>
+               <timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+                   <unit>DAYS</unit><number>2</number>
+               </timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+           </condition>
+           <externalMessage>Reached CANCELATION</externalMessage>
+           <subscriptionCancellationPolicy>END_OF_TERM</subscriptionCancellationPolicy>
+       </state>
+       <state name="BLOCKED">
+           <condition>
+               <timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+                   <unit>DAYS</unit><number>1</number>
+               </timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+           </condition>
+           <externalMessage>Reached BLOCKED</externalMessage>
+           <blockChanges>true</blockChanges>
+           <disableEntitlementAndChangesBlocked>true</disableEntitlementAndChangesBlocked>
+           <autoReevaluationInterval>
+               <unit>DAYS</unit><number>1</number>
+           </autoReevaluationInterval>
+       </state>
+       <state name="WARNING">
+           <condition>
+               <timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+                   <unit>DAYS</unit><number>0</number>
+               </timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
+           </condition>
+           <externalMessage>Reached WARNING</externalMessage>
+           <blockChanges>true</blockChanges>
+           <disableEntitlementAndChangesBlocked>true</disableEntitlementAndChangesBlocked>
+           <autoReevaluationInterval>
+               <unit>DAYS</unit><number>1</number>
+           </autoReevaluationInterval>
+       </state>
+   </accountOverdueStates>
+</overdueConfig>
