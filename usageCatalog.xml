@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://docs.killbill.io/latest/catalog.xsd">
+    <effectiveDate>2021-06-09T10:36:00+00:00</effectiveDate>
+    <catalogName>WiflixCatalog</catalogName>
+    <recurringBillingMode>IN_ADVANCE</recurringBillingMode>
+    <currencies>
+        <currency>KES</currency>
+    </currencies>
+    <units>
+        <unit name="movies"/>
+    </units>
+    <products>
+        <product name="Standard">
+            <category>BASE</category>
+        </product>
+    </products>
+    <rules>
+        <changePolicy>
+            <changePolicyCase>
+                <policy>IMMEDIATE</policy>
+            </changePolicyCase>
+        </changePolicy>
+        <cancelPolicy>
+            <cancelPolicyCase>
+                <policy>END_OF_TERM</policy>
+            </cancelPolicyCase>
+        </cancelPolicy>
+       <!--<billingAlignment>
+            <billingAlignmentCase>
+                <alignment>SUBSCRIPTION</alignment>
+            </billingAlignmentCase>
+        </billingAlignment> -->
+    </rules>
+    <plans>
+        <plan name="wiflix-fixed-daily">
+            <product>Standard</product>
+            <finalPhase type="EVERGREEN">
+                <duration>
+                    <unit>UNLIMITED</unit>
+                </duration>
+                <usages>
+                    <usage name="movie-in-arrear" billingMode="IN_ARREAR" usageType="CONSUMABLE">
+                        <billingPeriod>DAILY</billingPeriod>
+                        <tiers>
+                            <tier>
+                                <blocks>
+                                    <tieredBlock>
+                                        <unit>movies</unit>
+                                        <size>1</size>
+                                        <prices>
+                                            <price>
+                                                <currency>KES</currency>
+                                                <value>30.00</value>
+                                            </price>
+                                        </prices>
+                                        <max>100000</max>
+                                    </tieredBlock>
+                                </blocks>
+                            </tier>
+                        </tiers>
+                    </usage>
+                </usages>
+            </finalPhase>
+        </plan>
+    </plans>
+    <!--
+    <billingAlignment>
+        <billingAlignmentCase>
+            <billingPeriod>FIXEDTERM</billingPeriod>
+            <alignment>START_OF_SUBSCRIPTION</alignment>
+        </billingAlignmentCase>
+    </billingAlignment>
+    -->
+    <priceLists>
+        <defaultPriceList name="DEFAULT">
+            <plans>
+                <plan>wiflix-fixed-daily</plan>
+            </plans>
+        </defaultPriceList>
+    </priceLists>
+</catalog>
