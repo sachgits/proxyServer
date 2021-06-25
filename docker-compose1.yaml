@@ -1,0 +1,104 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: mysqlhost
+    volumes:
+      - /mysql:/var/lib/mysql # CHANGE THIS TO LOCAL DATABASE PATH
+    ports:
+      - 3306
+    command: mysqld --innodb=ON
+    environment:
+      - MYSQL_ROOT_PASSWORD=streama@1234
+      - MYSQL_USER=streama
+      - MYSQL_DATABASE=streama
+      - MYSQL_PASSWORD=streama@1234
+      - autoReconnect=true
+      - autoReconnectForPools=true
+      - reconnectAtTxEnd=true
+      - initialTimeout=10
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1000
+        window: 30s
+    networks:
+      - web
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1000
+        window: 30s
+    networks:
+      - web
+  streama:
+    image: wiflix:3.5
+    ports:
+      - 8080
+    volumes:
+      - wiflixstore:/data/streama
+    depends_on:
+      - mysql
+    environment:
+      - SERVICE_PORTS=8080
+      - ACTIVE_PROFILE=mysql
+      - mysql_host=mysql
+      - mysql_port=3306
+      - mysql_db=streama
+      - mysql_user=streama
+      - mysql_password=streama@1234
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 3
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1000
+        window: 30s
+    networks:
+      - web
+  register:
+    image: register:2.2.5
+    hostname: register
+    ports:
+      - 3000:3000
+    depends_on:
+      - streama
+  proxy:
+    image: dockercloud/haproxy
+    depends_on:
+      - streama
+    environment:
+      - BALANCE=leastconn
+      - HTTP_CHECK="GET /dash?dashType=home"
+      - STATS_AUTH=wiflix:wadmin
+      - STATUS_PORT=1936
+      - MONITOR_PORT=80
+      - MONITOR_URI=/haproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 1936:1936
+    networks:
+      - web
+networks:
+  web:
+    driver: overlay
+volumes:
+  wiflixstore:
+    external:
+      name: wiflix-volume
