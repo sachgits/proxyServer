@@ -3,15 +3,6 @@
        <initialReevaluationInterval>
            <unit>DAYS</unit><number>2</number>
        </initialReevaluationInterval>
-       <state name="CANCELLATION">
-           <condition>
-               <timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
-                   <unit>DAYS</unit><number>2</number>
-               </timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
-           </condition>
-           <externalMessage>Reached CANCELATION</externalMessage>
-           <subscriptionCancellationPolicy>END_OF_TERM</subscriptionCancellationPolicy>
-       </state>
        <state name="BLOCKED">
            <condition>
                <timeSinceEarliestUnpaidInvoiceEqualsOrExceeds>
