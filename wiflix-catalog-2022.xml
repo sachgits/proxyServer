@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CatalogSchema.xsd">
+    <effectiveDate>2022-03-23T01:00:00Z</effectiveDate>
+    <catalogName>WiflixCatalog</catalogName>
+    <currencies>
+        <currency>KES</currency>
+    </currencies>
+    <units>
+        <unit name="movies" prettyName="movies"/>
+
+    </units>
+    <products>
+        <product name="Standard" prettyName="Standard">
+            <category>BASE</category>
+            <included/>
+
+            <available/>
+
+            <limits/>
+
+        </product>
+    </products>
+    <rules>
+        <changePolicy>
+            <changePolicyCase>
+                <policy>IMMEDIATE</policy>
+            </changePolicyCase>
+        </changePolicy>
+        <changeAlignment/>
+
+        <cancelPolicy>
+            <cancelPolicyCase>
+                <policy>END_OF_TERM</policy>
+            </cancelPolicyCase>
+        </cancelPolicy>
+        <createAlignment/>
+
+        <billingAlignment/>
+
+        <priceList/>
+
+    </rules>
+    <plans>
+        <plan name="wiflix-fixed-daily" prettyName="wiflix-fixed-daily">
+            <product>Standard</product>
+            <recurringBillingMode>IN_ADVANCE</recurringBillingMode>
+            <initialPhases/>
+
+            <finalPhase type="EVERGREEN">
+                <duration>
+                    <unit>UNLIMITED</unit>
+                </duration>
+                <usages>
+                    <usage billingMode="IN_ARREAR" name="movie-in-arrear"  usageType="CONSUMABLE">
+                        <billingPeriod>DAILY</billingPeriod>
+                        <limits/>
+
+                        <blocks/>
+
+                        <tiers>
+                            <tier>
+                                <limits/>
+
+                                <blocks>
+                                    <tieredBlock type="TIERED">
+                                        <unit>movies</unit>
+                                        <size>1.0</size>
+                                        <prices>
+                                            <price>
+                                                <currency>KES</currency>
+                                                <value>60.00</value>
+                                            </price>
+                                        </prices>
+                                        <max>1.0E7</max>
+                                    </tieredBlock>
+                                </blocks>
+                            </tier>
+                        </tiers>
+                    </usage>
+                </usages>
+            </finalPhase>
+        </plan>
+        <plan name="wiflix-fixed-weekly" prettyName="wiflix-fixed-weekly">
+            <product>Standard</product>
+            <recurringBillingMode>IN_ADVANCE</recurringBillingMode>
+            <initialPhases/>
+
+            <finalPhase type="EVERGREEN">
+                <duration>
+                    <unit>UNLIMITED</unit>
+                </duration>
+                <usages>
+                    <usage billingMode="IN_ARREAR" name="movie-in-arrear-weekly"  usageType="CONSUMABLE">
+                        <billingPeriod>WEEKLY</billingPeriod>
+                        <limits/>
+
+                        <blocks/>
+
+                        <tiers>
+                            <tier>
+                                <limits/>
+
+                                <blocks>
+                                    <tieredBlock type="TIERED">
+                                        <unit>movies</unit>
+                                        <size>1.0</size>
+                                        <prices>
+                                            <price>
+                                                <currency>KES</currency>
+                                                <value>300.00</value>
+                                            </price>
+                                        </prices>
+                                        <max>1.0E7</max>
+                                    </tieredBlock>
+                                </blocks>
+                            </tier>
+                        </tiers>
+                    </usage>
+                </usages>
+            </finalPhase>
+        </plan>
+    </plans>
+    <priceLists>
+        <defaultPriceList name="DEFAULT" prettyName="DEFAULT">
+            <plans>
+                <plan>wiflix-fixed-daily</plan>
+                <plan>wiflix-fixed-weekly</plan>
+            </plans>
+        </defaultPriceList>
+    </priceLists>
+</catalog>
